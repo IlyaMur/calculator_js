@@ -6,3 +6,4 @@ let mission;
 let period;
 
 console.log("JS is awesome!");
+alert("JS is awesome!");
