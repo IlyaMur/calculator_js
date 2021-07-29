@@ -5,4 +5,4 @@ let deposit;
 let mission;
 let period;
 
-alert("JS is awesome!");
+console.log("JS is awesome!");
