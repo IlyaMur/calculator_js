@@ -1,12 +1,17 @@
 "use strict";
 
-let money = 50000,
-  income = "фриланс",
-  addExpenses = "такси, собака, ЗОЖ",
-  deposit = true,
-  mission = 1000000,
-  period = 6,
-  budgetDay = money / 30;
+let money = +prompt("Ваш месячный доход?");
+let income = "фриланс";
+let addExpenses = prompt(
+  "Перечислите возможные расходы за рассчитываемый период через запятую"
+);
+let deposit = confirm("Есть ли у вас депозит в банке?");
+let mission = 1000000;
+let period = 6;
+let budgetDay = money / 30;
+let expensesArray = [];
+let amountsArray = [];
+let timesToAsk = 2;
 
 console.log(
   `money: ${typeof money}`,
@@ -29,30 +34,22 @@ console.log(budgetDay);
 
 console.log('----------- LESSON 3 -----------');
 
-money = +prompt("Ваш месячный доход?");
-addExpenses = prompt(
-  "Перечислите возможные расходы за рассчитываемый период через запятую"
-);
-deposit = confirm("Есть ли у вас депозит в банке?");
-
-const expensesQuestion = () => prompt("Введите обязательную статью расходов?"),
-  moneyQuestion = () => prompt("Во сколько это обойдется?");
-
-let expensesArray = [],
-  amountsArray = [],
-  timesToAsk = 2;
-
-for (let i = timesToAsk; i--;) { expensesArray.push(expensesQuestion()); }
-for (let i = timesToAsk; i--;) { amountsArray.push(moneyQuestion()); }
+for (let i = timesToAsk; i--;) {
+  expensesArray.push(
+    prompt("Введите обязательную статью расходов?")
+  );
+  amountsArray.push(
+    prompt("Во сколько это обойдется?")
+  );
+}
 
 let [expenses1, expenses2] = expensesArray;
 let [amount1, amount2] = amountsArray;
 
-
 let budgetMonth = money -
   amountsArray
-    .map((el) => +el)
-    .reduce((sum, amount) => sum + amount);
+    .map(function (el) { return +el; })
+    .reduce(function (sum, amount) { return (sum + amount); });
 
 budgetDay = Math.floor(budgetMonth / 30);
 
