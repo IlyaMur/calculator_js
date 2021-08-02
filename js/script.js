@@ -59,7 +59,7 @@ console.log(`Цель будет достигнута за: ${Math.ceil(mission 
 
 switch (true) {
   case (budgetDay > 1200):
-    console.log('У вас высокий урвоень дохода');
+    console.log('У вас высокий уровень дохода');
     break;
   case (budgetDay >= 600 && budgetDay < 1200):
     console.log('У вас средний уровень дохода');
