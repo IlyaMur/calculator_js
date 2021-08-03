@@ -35,22 +35,22 @@ let [amount1, amount2] = amountsArray;
 
 // ----------- LESSON 4
 
-function getExpensesMonth() {
+function getExpensesMonth(amount1, amount2) {
   return (+amount1 + (+amount2));
 }
 
-function getAccumulatedMonth() {
-  return money - getExpensesMonth();
+function getAccumulatedMonth(money) {
+  return money - getExpensesMonth(amount1, amount2);
 }
 
-let accumulatedMonth = getAccumulatedMonth();
+let accumulatedMonth = getAccumulatedMonth(money, amount1, amount2);
 budgetDay = Math.floor(accumulatedMonth / 30);
 
-function getTargetMonth() {
+function getTargetMonth(mission, accumulatedMonth) {
   return Math.ceil(mission / accumulatedMonth);
 }
 
-function getStatusIncome() {
+function getStatusIncome(budgetDay) {
   let statusMessage;
 
   switch (true) {
@@ -71,9 +71,9 @@ function getStatusIncome() {
 }
 
 console.log(addExpenses.toLowerCase().split(", "));
-console.log(`Расходы за месяц: ${getExpensesMonth()}`);
+console.log(`Расходы за месяц: ${getExpensesMonth(amount1, amount2)}`);
 console.log(`Бюджет на день: ${budgetDay} руб.`);
-console.log(`Бюджет на месяц: ${getAccumulatedMonth()} руб.`);
-console.log(`Цель будет достигнута за: ${getTargetMonth()} мес.`);
-console.log(getStatusIncome());
+console.log(`Бюджет на месяц: ${accumulatedMonth} руб.`);
+console.log(`Цель будет достигнута за: ${getTargetMonth(mission, accumulatedMonth)} мес.`);
+console.log(getStatusIncome(budgetDay));
 
