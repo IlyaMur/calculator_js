@@ -38,13 +38,15 @@ let [amount1, amount2] = amountsArray;
 function getExpensesMonth() {
   return (+amount1 + (+amount2));
 }
-budgetDay = Math.floor(getExpensesMonth() / 30);
+
 
 function getAccumulatedMonth() {
   return money - getExpensesMonth();
 }
 
+
 let accumulatedMonth = getAccumulatedMonth();
+budgetDay = Math.floor(accumulatedMonth / 30);
 
 function getTargetMonth() {
   return Math.ceil(mission / accumulatedMonth);
