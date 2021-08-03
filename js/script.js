@@ -38,6 +38,7 @@ let [amount1, amount2] = amountsArray;
 function getExpensesMonth() {
   return (+amount1 + (+amount2));
 }
+budgetDay = Math.floor(getExpensesMonth() / 30);
 
 function getAccumulatedMonth() {
   return money - getExpensesMonth();
@@ -68,7 +69,6 @@ function getStatusIncome() {
   return statusMessage;
 }
 
-budgetDay = Math.floor(getExpensesMonth() / 30);
 
 console.log(addExpenses.toLowerCase().split(", "));
 console.log(`Расходы за месяц: ${getExpensesMonth()}`);
