@@ -19,20 +19,7 @@ console.log(
   `\ndeposit: ${typeof deposit}`
 );
 
-console.log(addExpenses.length);
-
-console.log(
-  `Период равен ${period} месяцев`,
-  `\nЦель заработать ${mission} рублей/долларов/гривен/юани`
-);
-
-console.log(addExpenses.toLowerCase().split(", "));
-
-console.log(budgetDay);
-
 // ----------- LESSON 3
-
-console.log('----------- LESSON 3 -----------');
 
 for (let i = timesToAsk; i--;) {
   expensesArray.push(
@@ -46,27 +33,47 @@ for (let i = timesToAsk; i--;) {
 let [expenses1, expenses2] = expensesArray;
 let [amount1, amount2] = amountsArray;
 
-let budgetMonth = money -
-  amountsArray
-    .map(function (el) { return +el; })
-    .reduce(function (sum, amount) { return (sum + amount); });
+// ----------- LESSON 4
 
-budgetDay = Math.floor(budgetMonth / 30);
-
-console.log(`Бюджет на день: ${budgetDay} руб.`);
-console.log(`Бюджет на месяц: ${budgetMonth} руб.`);
-console.log(`Цель будет достигнута за: ${Math.ceil(mission / budgetMonth)} мес.`);
-
-switch (true) {
-  case (budgetDay > 1200):
-    console.log('У вас высокий уровень дохода');
-    break;
-  case (budgetDay >= 600 && budgetDay < 1200):
-    console.log('У вас средний уровень дохода');
-    break;
-  case (budgetDay < 600 && budgetDay >= 0):
-    console.log('К сожалению у вас уровень дохода ниже среднего');
-    break;
-  default:
-    console.log('Что то пошло не так');
+function getExpensesMonth() {
+  return (+amount1 + (+amount2));
 }
+
+function getAccumulatedMonth() {
+  return money - getExpensesMonth();
+}
+
+let accumulatedMonth = getAccumulatedMonth();
+
+function getTargetMonth() {
+  return Math.ceil(mission / accumulatedMonth);
+}
+
+function getStatusIncome() {
+  let statusMessage;
+
+  switch (true) {
+    case (budgetDay > 1200):
+      statusMessage = 'У вас высокий уровень дохода';
+      break;
+    case (budgetDay >= 600 && budgetDay < 1200):
+      statusMessage = 'У вас средний уровень дохода';
+      break;
+    case (budgetDay < 600 && budgetDay >= 0):
+      statusMessage = 'К сожалению, у вас уровень дохода ниже среднего';
+      break;
+    default:
+      statusMessage = 'Что-то пошло не так';
+  }
+  return statusMessage;
+}
+
+budgetDay = Math.floor(getExpensesMonth() / 30);
+
+console.log(addExpenses.toLowerCase().split(", "));
+console.log(`Расходы за месяц: ${getExpensesMonth()}`);
+console.log(`Бюджет на день: ${budgetDay} руб.`);
+console.log(`Бюджет на месяц: ${getAccumulatedMonth()} руб.`);
+console.log(`Цель будет достигнута за: ${getTargetMonth()} мес.`);
+console.log(getStatusIncome());
+
