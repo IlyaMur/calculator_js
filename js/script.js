@@ -9,9 +9,8 @@ let deposit = confirm("Есть ли у вас депозит в банке?");
 let mission = 1000000;
 let period = 6;
 let budgetDay = money / 30;
-let expensesArray = [];
-let amountsArray = [];
-let timesToAsk = 2;
+let expenses = [];
+let amounts = [];
 
 console.log(
   `money: ${typeof money}`,
@@ -19,21 +18,42 @@ console.log(
   `\ndeposit: ${typeof deposit}`
 );
 
-// ----------- LESSON 3
+// ----------- LESSON 5
 
-for (let i = timesToAsk; i--;) {
-  expensesArray.push(
-    prompt("Введите обязательную статью расходов?")
-  );
-  amountsArray.push(
-    prompt("Во сколько это обойдется?")
-  );
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
+
+function start(expenses, amounts) {
+  // Создам два новых массива, чтобы не мутировать старые
+  let expAr = expenses;
+  let amAr = amounts;
+
+  // наполняю новые массивы ответами
+  for (let i = 2; i--;) {
+    expAr.push(
+      prompt("Введите обязательную статью расходов?")
+    );
+
+    let number;
+    do {
+      number = prompt("Во сколько это обойдется?"
+      );
+    } while (!isNumber(number));
+    amAr.push(number);
+  }
+
+  // возвращаю новые наполненные массивы
+  return [expAr, amAr];
+}
+
+// Всё ради чистой функции. 
+// Присваиваю возвращённые массивы переменным.
+let [expensesArray, amountsArray] = start(expenses, amounts);
 
 let [expenses1, expenses2] = expensesArray;
 let [amount1, amount2] = amountsArray;
 
-// ----------- LESSON 4
 
 function getExpensesMonth(amount1, amount2) {
   return (+amount1 + (+amount2));
@@ -74,6 +94,13 @@ console.log(addExpenses.toLowerCase().split(", "));
 console.log(`Расходы за месяц: ${getExpensesMonth(amount1, amount2)}`);
 console.log(`Бюджет на день: ${budgetDay} руб.`);
 console.log(`Бюджет на месяц: ${accumulatedMonth} руб.`);
-console.log(`Цель будет достигнута за: ${getTargetMonth(mission, accumulatedMonth)} мес.`);
-console.log(getStatusIncome(budgetDay));
 
+let month = getTargetMonth(mission, accumulatedMonth);
+
+if (month > 0) {
+  console.log(`Цель будет достигнута за: ${month} мес.`);
+} else {
+  console.log(`Цель не будет достигнута`);
+}
+
+console.log(getStatusIncome(budgetDay));
