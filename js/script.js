@@ -1,6 +1,9 @@
 "use strict";
 
-let money = +prompt("Ваш месячный доход?");
+let money;
+while (!isNumber(money)) {
+  money = prompt("Ваш месячный доход?");
+}
 let income = "фриланс";
 let addExpenses = prompt(
   "Перечислите возможные расходы за рассчитываемый период через запятую"
@@ -100,7 +103,7 @@ let month = getTargetMonth(mission, accumulatedMonth);
 if (month > 0) {
   console.log(`Цель будет достигнута за: ${month} мес.`);
 } else {
-  console.log(`Цель не будет достигнута`);
+  console.log('Цель не будет достигнута');
 }
 
 console.log(getStatusIncome(budgetDay));
