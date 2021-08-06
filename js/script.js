@@ -5,15 +5,30 @@ while (!isNumber(money)) {
   money = prompt("Ваш месячный доход?");
 }
 let income = "фриланс";
-let addExpenses = prompt(
-  "Перечислите возможные расходы за рассчитываемый период через запятую"
-);
-let deposit = confirm("Есть ли у вас депозит в банке?");
-let mission = 1000000;
+
 let period = 6;
 let budgetDay = money / 30;
 let expenses = [];
 let amounts = [];
+
+let appData = {
+  income: {},
+  addIncome: {},
+  expenses: {},
+  addExpenses: [],
+  deposit: false,
+  mission: 1000000,
+  pediod: 3,
+  asking: function () {
+    let addExpenses = prompt(
+      "Перечислите возможные расходы за рассчитываемый период через запятую"
+    );
+    appData.addExpenses = addExpenses.toLowerCase().split(", ");
+    appData.deposit = confirm("Есть ли у вас депозит в банке?");
+  }
+};
+
+appData.asking();
 
 console.log(
   `money: ${typeof money}`,
@@ -93,12 +108,12 @@ function getStatusIncome(budgetDay) {
   return statusMessage;
 }
 
-console.log(addExpenses.toLowerCase().split(", "));
+console.log(appData.addExpenses);
 console.log(`Расходы за месяц: ${getExpensesMonth(amount1, amount2)}`);
 console.log(`Бюджет на день: ${budgetDay} руб.`);
 console.log(`Бюджет на месяц: ${accumulatedMonth} руб.`);
 
-let month = getTargetMonth(mission, accumulatedMonth);
+let month = getTargetMonth(appData.mission, accumulatedMonth);
 
 if (month > 0) {
   console.log(`Цель будет достигнута за: ${month} мес.`);
