@@ -1,207 +1,67 @@
-"use strict";
+const booksCollection = document.querySelectorAll('.book');
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
+// Восстановить порядок книг.
+const book1 = booksCollection[1];
+const book2 = booksCollection[0];
+const book3 = booksCollection[4];
+const book4 = booksCollection[3];
+const book5 = booksCollection[5];
+const book6 = booksCollection[2];
 
-function isString(s) {
-  return !(isNumber(s) || s === undefined || s === null || s === '');
-}
+book1.after(book2);
+book2.after(book3);
+book3.after(book4);
+book5.after(book6);
 
-function capitalizeFirstLetter(word) {
-  return word[0].toUpperCase() + word.slice(1);
-}
+// Заменить картинку заднего фона на другую из папки image
+const body = document.querySelector('body');
+body.style.backgroundImage = 'url(./image/you-dont-know-js.jpg)';
 
+// Исправить заголовок в книге 3( Получится - "Книга 3. this и Прототипы Объектов")
+const textToFix = book3.querySelector('a');
+textToFix.textContent = "Книга 3. this и Прототипы Объектов";
 
-let money;
-while (!isNumber(money)) {
-  money = prompt("Ваш месячный доход?");
-}
+// Удалить рекламу со страницы
+const adv = document.querySelector('.adv');
+adv.remove();
 
+// Восстановить порядок глав во второй и пятой книге (внимательно инспектируйте индексы элементов, поможет dev tools)
+// book2
+const liBook2 = book2.querySelectorAll('li');
 
-let appData = {
-  budget: money,
-  budgetDay: 0,
-  budgetMonth: 0,
-  expensesMonth: 0,
-  income: {},
-  addIncome: {},
-  expenses: {},
-  addExpenses: [],
-  deposit: false,
-  percentDeposit: 0,
-  moneyDeposit: 0,
-  mission: 1000000,
-  pediod: 3,
-  asking: function () {
+const book2Chapter1 = liBook2[3];
+const book2Chapter2 = liBook2[6];
+const book2Chapter3 = liBook2[8];
+const book2Chapter4 = liBook2[4];
 
-    if (confirm('Есть ли у вас дополнительный источник заработка?')) {
-      let itemIncome;
-      let cashIncome;
+const extraCBook2 = liBook2[2];
+const extraBBook2 = liBook2[9];
 
-      while (!isString(itemIncome)) {
-        itemIncome = prompt('Какой у вас есть дополнительный заработок?', 'Фотограф');
-      }
+book2Chapter1.after(book2Chapter2);
+book2Chapter2.after(book2Chapter3);
+book2Chapter3.after(book2Chapter4);
+extraBBook2.after(extraCBook2);
 
-      while (!isNumber(cashIncome)) {
-        cashIncome = prompt('Сколько в месяц вы зарабатываете на этом?', 10000);
-      }
+// book5
+const liBook5 = book5.querySelectorAll('li');
 
-      appData.income[itemIncome] = cashIncome;
-    }
+const book5Chapter1 = liBook5[9];
+const book5Chapter2 = liBook5[3];
+const book5Chapter3 = liBook5[4];
+const book5Chapter4 = liBook5[2];
+const book5Chapter5 = liBook5[6];
+const book5Chapter6 = liBook5[7];
+const bookt5ExtraA = liBook5[5];
+const bookt5ExtraB = liBook5[8];
+const bookt5ExtraC = liBook5[10];
 
+book5Chapter2.before(book5Chapter1);
+book5Chapter5.before(book5Chapter4);
+bookt5ExtraB.before(bookt5ExtraA);
 
-    appData.addExpenses = prompt(
-      "Перечислите возможные расходы за рассчитываемый период через запятую"
-    );
-    appData.addExpenses = appData.addExpenses.toLowerCase().split(", ");
-    appData.deposit = confirm("Есть ли у вас депозит в банке?");
+// в шестой книге добавить главу “Глава 8: За пределами ES6” и поставить её в правильное место
+const chapter8Book6 = document.createElement('li');
+chapter8Book6.textContent = 'Глава 8: За пределами ES6';
 
-    let answExp;
-    let answMoney;
-
-    for (let i = 0; i < 2; i++) {
-
-      while (!isString(answExp)) {
-        answExp = prompt("Введите обязательную статью расходов?");
-      }
-      while (!isNumber(answMoney)) {
-        answMoney = prompt("Во сколько это обойдется?");
-      }
-
-      appData.expenses[answExp] = +answMoney;
-
-      answExp = null;
-      answMoney = null;
-    }
-  },
-
-  getExpensesMonth: function () {
-    for (let i in appData.expenses) {
-      appData.expensesMonth += appData.expenses[i];
-    }
-  },
-
-  getBudget: function () {
-    appData.budgetMonth = appData.budget - appData.expensesMonth;
-    appData.budgetDay = appData.budgetMonth / 30;
-  },
-
-  getTargetMonth: function () {
-    return Math.ceil(appData.mission / appData.budgetMonth);
-  },
-
-  getStatusIncome: function () {
-    let statusMessage;
-
-    switch (true) {
-      case (appData.budgetDay > 1200):
-        statusMessage = 'У вас высокий уровень дохода';
-        break;
-      case (appData.budgetDay >= 600 && appData.budgetDay < 1200):
-        statusMessage = 'У вас средний уровень дохода';
-        break;
-      case (appData.budgetDay < 600 && appData.budgetDay >= 0):
-        statusMessage = 'К сожалению, у вас уровень дохода ниже среднего';
-        break;
-      default:
-        statusMessage = 'Что-то пошло не так';
-    }
-
-    return statusMessage;
-  },
-  getInfoDeposit: function () {
-    if (appData.deposit) {
-      let yearPercent;
-      let sum;
-
-      while (!isNumber(yearPercent)) {
-        yearPercent = prompt('Какой годовой процент?', 10);
-      }
-      while (!isNumber(sum)) {
-        sum = prompt('Какая сумма заложена?', 10000);
-      }
-
-      appData.percentDeposit = yearPercent;
-      appData.moneyDeposit = sum;
-    }
-  },
-
-  calcSavedMoney: function () {
-    return appData.budgetMonth * appData.pediod;
-  }
-};
-
-appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
-appData.getInfoDeposit();
-
-console.log('Расходы за месяц', appData.expensesMonth);
-console.log(`Цель будет достигнута за: ${appData.getTargetMonth()} мес.`);
-console.log(appData.getStatusIncome());
-
-console.log(
-  appData.addExpenses
-    .map(
-      function (word) {
-        return word[0].toUpperCase() + word.slice(1);
-      })
-    .join(', ')
-);
-
-console.log('Наша программа включает в себя данные:');
-for (let i in appData) {
-  console.log(i, appData[i]);
-}
-
-
-
-//-----------------------  LESSON 09
-
-
-// Кнопку "Рассчитать" через id
-let calculateBtn = document.getElementById('start');
-
-// Кнопки “+” (плюс) через Tag, каждую в своей переменной. 
-// Раз просили через 'Tag', сделал вместо querySelector через getElementsByTagName
-let buttons = document.getElementsByTagName('button');
-let incomeAddButton;
-let expensesAddButton;
-for (let element of buttons) {
-  if (element.className === 'btn_plus expenses_add') {
-    expensesAddButton = element;
-  } else if (element.className === 'btn_plus income_add') {
-    incomeAddButton = element;
-  }
-}
-
-// Чекбокс по id через querySelector
-let depositCheckbox = document.querySelector('#deposit-check');
-
-// Поля для ввода возможных доходов (additional_income-item) при помощи querySelectorAll
-let additionalIncomeItems = document.querySelectorAll('.additional_income-item');
-let firtsIncomeForm = additionalIncomeItems[0];
-let secondIncomeForm = additionalIncomeItems[1];
-
-// Каждый элемент в правой части программы через класс(не через querySelector), 
-// которые имеют в имени класса "-value", начиная с class="budget_day-value" 
-// и заканчивая class="target_month-value">
-let budgetDay = document.getElementsByClassName('budget_day-value')[0];
-let expensesMonth = document.getElementsByClassName('expenses_month-value')[0];
-let additionalIncome = document.getElementsByClassName('additional_income-value')[0];
-let additionalExpenses = document.getElementsByClassName('additional_expenses-value')[0];
-let incomePeriod = document.getElementsByClassName('income_period-value')[0];
-let targetMonth = document.getElementsByClassName('target_month-value')[0];
-
-// Оставшиеся поля через querySelector каждый в отдельную переменную:
-// поля ввода(input) с левой стороны и не забудьте про range.
-let budgetMonth = document.querySelector('.budget_month-value');
-let salaryAmount = document.querySelector('.salary-amount');
-let incomeTitle = document.querySelector('.income-items>.income-title');
-let incomeAmount = document.querySelector('.income-amount');
-let expensesTitle = document.querySelector('.expenses-items>.expenses-title');
-let expensesAmount = document.querySelector('.expenses-amount');
-let additionalExpensesItem = document.querySelector('.additional_expenses-item');
-let targetAmount = document.querySelector('.target-amount');
-let periodSelect = document.querySelector('.period-select');
+const chapter7Book6 = book6.querySelectorAll('li')[8];
+chapter7Book6.after(chapter8Book6);
