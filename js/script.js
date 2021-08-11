@@ -76,6 +76,7 @@ let appData = {
 
     appData.showResult();
   },
+
   showResult: function () {
     budgetMonth.value = appData.budgetMonth;
     budgetDay.value = Math.floor(appData.budgetDay);
@@ -90,7 +91,6 @@ let appData = {
     })
   },
 
-
   addIncomeBlock: function () {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
 
@@ -103,6 +103,7 @@ let appData = {
       incomeAddButton.style.display = 'none';
     }
   },
+
   addExpensesBlock: function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
 
@@ -115,6 +116,7 @@ let appData = {
       expensesAddButton.style.display = 'none';
     }
   },
+
   getIncome: function () {
     incomeItems.forEach(function (item) {
       let itemIncome = item.querySelector('.income-title').value;
