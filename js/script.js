@@ -98,6 +98,11 @@ let appData = {
 
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAddButton);
 
+    const cloneTitle = cloneIncomeItem.querySelector('.income-title');
+    const cloneAmount = cloneIncomeItem.querySelector('.income-amount');
+    cloneTitle.addEventListener('input', onlyRussianLetters);
+    cloneAmount.addEventListener('input', onlyNumbers);
+
     incomeItems = document.querySelectorAll('.income-items');
     if (incomeItems.length > 2) {
       incomeAddButton.style.display = 'none';
@@ -109,7 +114,14 @@ let appData = {
 
     cleanValues(cloneExpensesItem);
 
+    console.log(cloneExpensesItem);
+
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAddButton);
+
+    const cloneTitle = cloneExpensesItem.querySelector('.expenses-title');
+    const cloneAmount = cloneExpensesItem.querySelector('.expenses-amount');
+    cloneTitle.addEventListener('input', onlyRussianLetters);
+    cloneAmount.addEventListener('input', onlyNumbers);
 
     expensesItems = document.querySelectorAll('.expenses-items');
     if (expensesItems.length > 2) {
