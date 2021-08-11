@@ -21,7 +21,7 @@ let depositCheckbox = document.querySelector('#deposit-check');
 
 // Поля для ввода возможных доходов (additional_income-item) при помощи querySelectorAll
 let additionalIncomeItems = document.querySelectorAll('.additional_income-item');
-let firtsIncomeForm = additionalIncomeItems[0];
+let firtIncomeForm = additionalIncomeItems[0];
 let secondIncomeForm = additionalIncomeItems[1];
 
 // Каждый элемент в правой части программы через класс(не через querySelector), 
@@ -39,27 +39,16 @@ let targetMonth = document.getElementsByClassName('target_month-value')[0];
 let budgetMonth = document.querySelector('.budget_month-value');
 let salaryAmount = document.querySelector('.salary-amount');
 let incomeTitle = document.querySelector('.income-items>.income-title');
+let incomeCash = document.querySelector('.income-items>.income-amount');
 let expensesTitle = document.querySelector('.expenses-items>.expenses-title');
+let expensesCash = document.querySelector('.expenses-items>.expenses-amount');
 let expensesItems = document.querySelectorAll('.expenses-items');
 let additionalExpensesItem = document.querySelector('.additional_expenses-item');
 let targetAmount = document.querySelector('.target-amount');
 let periodSelect = document.querySelector('.period-select');
+
 let incomeItems = document.querySelectorAll('.income-items');
 let periodAmount = document.querySelector('.period-amount');
-
-
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
-function isString(s) {
-  return !(isNumber(s) || s === undefined || s === null || s === '');
-}
-
-function capitalizeFirstLetter(word) {
-  return word[0].toUpperCase() + word.slice(1);
-}
-
 
 let appData = {
   budget: 0,
@@ -100,8 +89,13 @@ let appData = {
       incomePeriod.value = periodSelect.value * appData.budgetMonth;
     })
   },
+
+
   addIncomeBlock: function () {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
+
+    cleanValues(cloneIncomeItem);
+
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAddButton);
 
     incomeItems = document.querySelectorAll('.income-items');
@@ -111,6 +105,9 @@ let appData = {
   },
   addExpensesBlock: function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
+
+    cleanValues(cloneExpensesItem);
+
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAddButton);
 
     expensesItems = document.querySelectorAll('.expenses-items');
@@ -228,3 +225,40 @@ periodSelect.addEventListener('input', function () {
 calculateBtn.addEventListener('click', function () {
   if (salaryAmount.value !== '') appData.start();
 });
+
+incomeTitle.addEventListener('input', onlyRussianLetters);
+expensesTitle.addEventListener('input', onlyRussianLetters);
+firtIncomeForm.addEventListener('input', onlyRussianLetters);
+secondIncomeForm.addEventListener('input', onlyRussianLetters);
+
+salaryAmount.addEventListener('input', onlyNumbers);
+incomeCash.addEventListener('input', onlyNumbers);
+expensesCash.addEventListener('input', onlyNumbers);
+targetAmount.addEventListener('input', onlyNumbers);
+
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function isString(s) {
+  return !(isNumber(s) || s === undefined || s === null || s === '');
+}
+
+function capitalizeFirstLetter(word) {
+  return word[0].toUpperCase() + word.slice(1);
+}
+
+function cleanValues(block) {
+  for (let i = 0; i < block.children.length; i++) {
+    block.children[i].value = '';
+  }
+}
+
+function onlyRussianLetters(e) {
+  e.target.value = e.target.value.replace(/[^А-я\s,.!?:;]/, '');
+}
+
+function onlyNumbers(e) {
+  e.target.value = e.target.value.replace(/[^0-9.]/, '');
+}
