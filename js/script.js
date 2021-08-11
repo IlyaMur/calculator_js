@@ -160,29 +160,6 @@ let appData = {
     });
 
   },
-  asking: function () {
-
-    appData.addExpenses = appData.addExpenses.toLowerCase().split(", ");
-    appData.deposit = confirm("Есть ли у вас депозит в банке?");
-
-    let answExp;
-    let answMoney;
-
-    // for (let i = 0; i < 2; i++) {
-
-    //   while (!isString(answExp)) {
-    //     answExp = prompt("Введите обязательную статью расходов?");
-    //   }
-    //   while (!isNumber(answMoney)) {
-    //     answMoney = prompt("Во сколько это обойдется?");
-    //   }
-
-    //   appData.expenses[answExp] = +answMoney;
-
-    //   answExp = null;
-    //   answMoney = null;
-    // }
-  },
 
   getExpensesMonth: function () {
     for (let i in appData.expenses) {
@@ -242,31 +219,6 @@ let appData = {
 };
 
 
-// console.log('Расходы за месяц', appData.expensesMonth);
-// console.log(`Цель будет достигнута за: ${appData.getTargetMonth()} мес.`);
-// console.log(appData.getStatusIncome());
-
-// console.log(
-//   appData.addExpenses
-//     .map(
-//       function (word) {
-//         return word[0].toUpperCase() + word.slice(1);
-//       })
-//     .join(', ')
-// );
-
-// console.log('Наша программа включает в себя данные:');
-// for (let i in appData) {
-//   console.log(i, appData[i]);
-// }
-
-
-
-//-----------------------  LESSON 09
-
-
-// -------------------   LESSON 11 
-
 expensesAddButton.addEventListener('click', appData.addExpensesBlock);
 incomeAddButton.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', function () {
@@ -274,8 +226,5 @@ periodSelect.addEventListener('input', function () {
 });
 
 calculateBtn.addEventListener('click', function () {
-  if (salaryAmount.value === '') {
-  } else {
-    appData.start();
-  }
+  if (salaryAmount.value !== '') appData.start();
 });
