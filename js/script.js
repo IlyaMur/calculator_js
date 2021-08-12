@@ -107,7 +107,7 @@ let appData = {
     allInputsData.forEach(function (item) {
       item.value = '';
     });
-    periodSelect.value = 0;
+    periodSelect.value = 1;
 
     for (let i = 0; i < incomeItems.length; i++) {
       cleanValues(incomeItems[i]);
