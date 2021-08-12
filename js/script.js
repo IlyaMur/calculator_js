@@ -107,6 +107,7 @@ let appData = {
     allInputsData.forEach(function (item) {
       item.value = '';
     });
+    periodSelect.value = 0;
 
     for (let i = 0; i < incomeItems.length; i++) {
       cleanValues(incomeItems[i]);
@@ -118,18 +119,18 @@ let appData = {
       changeNodestate(expensesItems[i], false);
     }
 
-    // this.budget = 0;
-    // this.budgetDay = 0;
-    // this.budgetMonth = 0;
-    // this.expensesMonth = 0;
-    // this.income = {};
-    // this.incomeMonth = 0;
-    // this.addIncome = [];
-    // this.expenses = {};
-    // this.addExpenses = [];
-    // this.deposit = false;
-    // this.percentDeposit = 0;
-    // this.moneyDeposit = 0;
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.expensesMonth = 0;
+    this.income = {};
+    this.incomeMonth = 0;
+    this.addIncome = [];
+    this.expenses = {};
+    this.addExpenses = [];
+    this.deposit = false;
+    this.percentDeposit = 0;
+    this.moneyDeposit = 0;
 
 
     this.showResult();
