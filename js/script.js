@@ -307,18 +307,12 @@ periodSelect.addEventListener('input', function () {
 calculateBtn.addEventListener('click', function () {
   if (salaryAmount.value !== '') {
     appData.start.apply(appData);
-
-
-
   }
 });
 
 cancelBtn.addEventListener('click', function () {
   appData.reset();
-
-
 });
-
 
 
 incomeTitle.addEventListener('input', onlyRussianLetters);
