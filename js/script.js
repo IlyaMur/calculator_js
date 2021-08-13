@@ -93,11 +93,11 @@ AppData.prototype.start = function () {
   expensesAddButton.disabled = true;
 
   for (let i = 0; i < incomeItems.length; i++) {
-    changeNodestate(incomeItems[i], true);
+    this.changeNodestate(incomeItems[i], true);
   }
 
   for (let i = 0; i < expensesItems.length; i++) {
-    changeNodestate(expensesItems[i], true);
+    this.changeNodestate(expensesItems[i], true);
   }
 
   this.getExpenses();
@@ -128,13 +128,13 @@ AppData.prototype.reset = function () {
   periodSelect.value = 1;
 
   for (let i = 0; i < incomeItems.length; i++) {
-    cleanValues(incomeItems[i]);
-    changeNodestate(incomeItems[i], false);
+    this.cleanValues(incomeItems[i]);
+    this.changeNodestate(incomeItems[i], false);
   }
 
   for (let i = 0; i < expensesItems.length; i++) {
-    cleanValues(expensesItems[i]);
-    changeNodestate(expensesItems[i], false);
+    this.cleanValues(expensesItems[i]);
+    this.changeNodestate(expensesItems[i], false);
   }
 
   this.budget = 0;
@@ -177,15 +177,16 @@ AppData.prototype.showResult = function () {
 AppData.prototype.addIncomeBlock = function () {
 
   let cloneIncomeItem = incomeItems[0].cloneNode(true);
+  console.log(this);
 
-  cleanValues(cloneIncomeItem);
+  this.cleanValues(cloneIncomeItem);
 
   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAddButton);
 
   const cloneTitle = cloneIncomeItem.querySelector('.income-title');
   const cloneAmount = cloneIncomeItem.querySelector('.income-amount');
-  cloneTitle.addEventListener('input', onlyRussianLetters);
-  cloneAmount.addEventListener('input', onlyNumbers);
+  cloneTitle.addEventListener('input', this.onlyRussianLetters);
+  cloneAmount.addEventListener('input', this.onlyNumbers);
 
   incomeItems = document.querySelectorAll('.income-items');
   if (incomeItems.length > 2) {
@@ -196,14 +197,14 @@ AppData.prototype.addIncomeBlock = function () {
 AppData.prototype.addExpensesBlock = function () {
   let cloneExpensesItem = expensesItems[0].cloneNode(true);
 
-  cleanValues(cloneExpensesItem);
+  this.cleanValues(cloneExpensesItem);
 
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAddButton);
 
   const cloneTitle = cloneExpensesItem.querySelector('.expenses-title');
   const cloneAmount = cloneExpensesItem.querySelector('.expenses-amount');
-  cloneTitle.addEventListener('input', onlyRussianLetters);
-  cloneAmount.addEventListener('input', onlyNumbers);
+  cloneTitle.addEventListener('input', this.onlyRussianLetters);
+  cloneAmount.addEventListener('input', this.onlyNumbers);
 
   expensesItems = document.querySelectorAll('.expenses-items');
   if (expensesItems.length > 2) {
@@ -301,10 +302,10 @@ AppData.prototype.getInfoDeposit = function () {
     let yearPercent;
     let sum;
 
-    while (!isNumber(yearPercent)) {
+    while (!this.isNumber(yearPercent)) {
       yearPercent = prompt('Какой годовой процент?', 10);
     }
-    while (!isNumber(sum)) {
+    while (!this.isNumber(sum)) {
       sum = prompt('Какая сумма заложена?', 10000);
     }
 
@@ -328,8 +329,14 @@ AppData.prototype.changeInputsState = function (boolean) {
 AppData.prototype.eventListeners = function () {
   const _this = this;
 
-  expensesAddButton.addEventListener('click', _this.addExpensesBlock);
-  incomeAddButton.addEventListener('click', _this.addIncomeBlock);
+  expensesAddButton.addEventListener('click', function () {
+    _this.addExpensesBlock();
+  });
+
+  incomeAddButton.addEventListener('click', function () {
+    _this.addIncomeBlock();
+  });
+
   periodSelect.addEventListener('input', function () {
     periodAmount.textContent = periodSelect.value;
   });
@@ -344,50 +351,49 @@ AppData.prototype.eventListeners = function () {
     _this.reset();
   });
 
-  incomeTitle.addEventListener('input', onlyRussianLetters);
-  expensesTitle.addEventListener('input', onlyRussianLetters);
-  firtIncomeForm.addEventListener('input', onlyRussianLetters);
-  secondIncomeForm.addEventListener('input', onlyRussianLetters);
+  incomeTitle.addEventListener('input', this.onlyRussianLetters);
+  expensesTitle.addEventListener('input', this.onlyRussianLetters);
+  firtIncomeForm.addEventListener('input', this.onlyRussianLetters);
+  secondIncomeForm.addEventListener('input', this.onlyRussianLetters);
 
-  salaryAmount.addEventListener('input', onlyNumbers);
-  incomeCash.addEventListener('input', onlyNumbers);
-  expensesCash.addEventListener('input', onlyNumbers);
-  targetAmount.addEventListener('input', onlyNumbers);
+  salaryAmount.addEventListener('input', this.onlyNumbers);
+  incomeCash.addEventListener('input', this.onlyNumbers);
+  expensesCash.addEventListener('input', this.onlyNumbers);
+  targetAmount.addEventListener('input', this.onlyNumbers);
 };
 
-const appData = new AppData();
-appData.eventListeners();
-
-
-function isNumber(n) {
+AppData.prototype.isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
-}
+};
 
-function isString(s) {
-  return !(isNumber(s) || s === undefined || s === null || s === '');
-}
+AppData.prototype.isString = function (s) {
+  return !(this.isNumber(s) || s === undefined || s === null || s === '');
+};
 
-function capitalizeFirstLetter(word) {
+AppData.prototype.capitalizeFirstLetter = function (word) {
   return word[0].toUpperCase() + word.slice(1);
-}
+};
 
-function cleanValues(block) {
+AppData.prototype.cleanValues = function (block) {
   for (let i = 0; i < block.children.length; i++) {
     block.children[i].value = '';
   }
-}
+};
 
-function changeNodestate(block, boolean) {
+AppData.prototype.changeNodestate = function (block, boolean) {
   for (let i = 0; i < block.children.length; i++) {
     block.children[i].disabled = boolean;
   }
-}
+};
 
-function onlyRussianLetters(e) {
+AppData.prototype.onlyRussianLetters = function (e) {
   e.target.value = e.target.value.replace(/[^А-я\s,.!?:;]/, '');
-}
+};
 
-function onlyNumbers(e) {
+AppData.prototype.onlyNumbers = function (e) {
   e.target.value = e.target.value.replace(/[^0-9.]/, '');
 }
+
+const appData = new AppData();
+appData.eventListeners();
 
