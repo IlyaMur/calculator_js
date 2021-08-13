@@ -105,7 +105,6 @@ AppData.prototype.reset = function () {
   this.resetInputs(incomeItems);
   this.resetInputs(expensesItems);
 
-
   calculateBtn.style.display = 'block';
   cancelBtn.style.display = 'none';
 
@@ -117,6 +116,8 @@ AppData.prototype.reset = function () {
   });
   periodSelect.value = 1;
   periodAmount.textContent = 1;
+  Object.assign(this, new this.constructor());
+
 
   for (let i = 0; i < incomeItems.length; i++) {
     this.cleanValues(incomeItems[i]);
@@ -128,18 +129,18 @@ AppData.prototype.reset = function () {
     this.changeNodestate(expensesItems[i], false);
   }
 
-  this.budget = 0;
-  this.budgetDay = 0;
-  this.budgetMonth = 0;
-  this.expensesMonth = 0;
-  this.income = {};
-  this.incomeMonth = 0;
-  this.addIncome = [];
-  this.expenses = {};
-  this.addExpenses = [];
-  this.deposit = false;
-  this.percentDeposit = 0;
-  this.moneyDeposit = 0;
+  // this.budget = 0;
+  // this.budgetDay = 0;
+  // this.budgetMonth = 0;
+  // this.expensesMonth = 0;
+  // this.income = {};
+  // this.incomeMonth = 0;
+  // this.addIncome = [];
+  // this.expenses = {};
+  // this.addExpenses = [];
+  // this.deposit = false;
+  // this.percentDeposit = 0;
+  // this.moneyDeposit = 0;
 
 
   this.showResult();
