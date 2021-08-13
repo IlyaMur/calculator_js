@@ -102,6 +102,10 @@ AppData.prototype.start = function () {
 AppData.prototype.reset = function () {
   this.changeInputsState(false);
 
+  this.resetInputs(incomeItems);
+  this.resetInputs(expensesItems);
+
+
   calculateBtn.style.display = 'block';
   cancelBtn.style.display = 'none';
 
@@ -112,6 +116,7 @@ AppData.prototype.reset = function () {
     item.value = '';
   });
   periodSelect.value = 1;
+  periodAmount.textContent = 1;
 
   for (let i = 0; i < incomeItems.length; i++) {
     this.cleanValues(incomeItems[i]);
@@ -140,8 +145,6 @@ AppData.prototype.reset = function () {
   this.showResult();
 };
 AppData.prototype.showResult = function () {
-  const _this = this;
-
   budgetMonth.value = this.budgetMonth;
   budgetDay.value = Math.floor(this.budgetDay);
   expensesMonth.value = this.expensesMonth;
@@ -156,8 +159,10 @@ AppData.prototype.showResult = function () {
 
   incomePeriod.value = this.calcPeriod();
 
+  let budgetMonthCalc = this.budgetMonth;
+
   periodSelect.addEventListener('input', function () {
-    incomePeriod.value = periodSelect.value * _this.budgetMonth;
+    incomePeriod.value = periodSelect.value * budgetMonthCalc;
   });
 };
 AppData.prototype.addIncomeBlock = function () {
@@ -197,53 +202,45 @@ AppData.prototype.addExpensesBlock = function () {
 };
 
 AppData.prototype.getIncome = function () {
-  const _this = this;
-
   incomeItems.forEach(function (item) {
     let itemIncome = item.querySelector('.income-title').value;
     let cashIncome = item.querySelector('.income-amount').value;
 
     if (itemIncome !== '' && cashIncome !== '') {
-      _this.income[itemIncome] = cashIncome;
+      this.income[itemIncome] = cashIncome;
     }
-  });
+  }, this);
 
   for (let key in this.income) {
     this.incomeMonth += +this.income[key];
   }
 };
 AppData.prototype.getExpenses = function () {
-  const _this = this;
-
   expensesItems.forEach(function (item) {
     let itemExpenses = item.querySelector('.expenses-title').value;
     let cashExpenses = item.querySelector('.expenses-amount').value;
 
     if (itemExpenses !== '' && cashExpenses !== '') {
-      _this.expenses[itemExpenses] = cashExpenses;
+      this.expenses[itemExpenses] = cashExpenses;
     }
-  });
+  }, this);
 };
 AppData.prototype.getAddExpenses = function () {
-  const _this = this;
-
   let addExpenses = additionalExpensesItem.value.split(', ');
   addExpenses.forEach(function (item) {
     item = item.trim();
     if (item !== '') {
-      _this.addExpenses.push(item);
+      this.addExpenses.push(item);
     }
-  });
+  }, this);
 };
 AppData.prototype.getAddIncome = function () {
-  const _this = this;
-
   additionalIncomeItems.forEach(function (item) {
     let itemValue = item.value.trim();
     if (itemValue !== '') {
-      _this.addIncome.push(itemValue);
+      this.addIncome.push(itemValue);
     }
-  });
+  }, this);
 
 };
 
@@ -310,9 +307,15 @@ AppData.prototype.changeInputsState = function (boolean) {
   });
 };
 
-AppData.prototype.eventListeners = function () {
-  const _this = this;
+AppData.prototype.resetInputs = function (inputs) {
+  if (inputs.length > 1) {
+    for (let i = 1; i < inputs.length; i++) {
+      inputs[i].remove();
+    }
+  }
+};
 
+AppData.prototype.eventListeners = function () {
   expensesAddButton.addEventListener('click', this.addExpensesBlock.bind(this));
   incomeAddButton.addEventListener('click', this.addIncomeBlock.bind(this));
 
@@ -320,14 +323,18 @@ AppData.prototype.eventListeners = function () {
     periodAmount.textContent = periodSelect.value;
   });
 
+  let appDataStart = this.start.bind(appData);
+
   calculateBtn.addEventListener('click', function () {
     if (salaryAmount.value !== '') {
-      _this.start();
+      appDataStart();
     }
   });
 
+  let appDataReset = this.reset.bind(appData);
+
   cancelBtn.addEventListener('click', function () {
-    _this.reset();
+    appDataReset();
   });
 
   incomeTitle.addEventListener('input', this.onlyRussianLetters);
@@ -375,4 +382,3 @@ AppData.prototype.onlyNumbers = function (e) {
 
 const appData = new AppData();
 appData.eventListeners();
-
