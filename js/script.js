@@ -77,22 +77,22 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('keydown', function (e) {
     switch (e.key) {
       case "ArrowLeft":
-        counterLeft--;
+        counterLeft -= 10;
         squareElement.style.marginLeft = `${counterLeft}px`;
 
         break;
       case "ArrowRight":
-        counterLeft++;
+        counterLeft += 10;
         squareElement.style.marginLeft = `${counterLeft}px`;
 
         break;
       case "ArrowUp":
-        counterUp--;
+        counterUp -= 10;
         squareElement.style.marginTop = `${counterUp}px`;
 
         break;
       case "ArrowDown":
-        counterUp++;
+        counterUp += 10;
         squareElement.style.marginTop = `${counterUp}px`;
 
         break;
