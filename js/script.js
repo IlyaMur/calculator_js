@@ -68,22 +68,8 @@ const AppData = function () {
   this.percentDeposit = 0;
   this.moneyDeposit = 0;
 };
-
-// AppData.prototype.check = function () {
-//   if (salaryAmount.value !== '') {
-//     calculateBtn.removeAttribute('disabled');
-//   }
-// };
-
 AppData.prototype.start = function () {
-  // if (salaryAmount.value === '') {
-  //   calculateBtn.setAttribute('disabled', 'true');
-  //   return;
-  // }
-
   this.budget = +salaryAmount.value;
-
-  console.log(this);
 
   this.changeInputsState(true);
   calculateBtn.style.display = 'none';
@@ -175,9 +161,7 @@ AppData.prototype.showResult = function () {
   });
 };
 AppData.prototype.addIncomeBlock = function () {
-
   let cloneIncomeItem = incomeItems[0].cloneNode(true);
-  console.log(this);
 
   this.cleanValues(cloneIncomeItem);
 
@@ -329,13 +313,8 @@ AppData.prototype.changeInputsState = function (boolean) {
 AppData.prototype.eventListeners = function () {
   const _this = this;
 
-  expensesAddButton.addEventListener('click', function () {
-    _this.addExpensesBlock();
-  });
-
-  incomeAddButton.addEventListener('click', function () {
-    _this.addIncomeBlock();
-  });
+  expensesAddButton.addEventListener('click', this.addExpensesBlock.bind(this));
+  incomeAddButton.addEventListener('click', this.addIncomeBlock.bind(this));
 
   periodSelect.addEventListener('input', function () {
     periodAmount.textContent = periodSelect.value;
