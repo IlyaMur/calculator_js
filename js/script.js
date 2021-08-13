@@ -67,8 +67,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   square.createElement();
 
-  // ---------
-
   const squareElement = document.getElementById('square');
 
   let counterLeft = 0;
