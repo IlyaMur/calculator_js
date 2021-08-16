@@ -59,20 +59,7 @@ let incomeInputs;
 let expensesInputs;
 
 class AppData {
-  constructor(
-    budget = 0,
-    budgetDay = 0,
-    budgetMonth = 0,
-    expensesMonth = 0,
-    income = {},
-    incomeMonth = 0,
-    addIncome = [],
-    expenses = {},
-    addExpenses = [],
-    deposit = false,
-    percentDeposit = 0,
-    moneyDeposit = 0
-  ) {
+  constructor() {
     this.budget = 0;
     this.budgetDay = 0;
     this.budgetMonth = 0;
@@ -129,6 +116,9 @@ class AppData {
     calculateBtn.style.display = 'block';
     cancelBtn.style.display = 'none';
 
+    expensesAddButton.style.display = 'block';
+    incomeAddButton.style.display = 'block';
+
     incomeAddButton.disabled = false;
     expensesAddButton.disabled = false;
 
@@ -168,10 +158,8 @@ class AppData {
 
     incomePeriod.value = this.calcPeriod();
 
-    const budgetMonthCalc = this.budgetMonth;
-
-    periodSelect.addEventListener('input', function () {
-      incomePeriod.value = periodSelect.value * budgetMonthCalc;
+    periodSelect.addEventListener('input', () => {
+      incomePeriod.value = periodSelect.value * this.budgetMonth;
     });
   }
 
@@ -220,7 +208,7 @@ class AppData {
     const isExpenses = boolean;
     let items;
 
-    if (typeof block.value === 'string') {
+    if (typeof block.value === 'string' && block.value !== '') {
       items = additionalExpensesItem.value.split(', ');
     } else {
       items = block;
@@ -320,18 +308,14 @@ class AppData {
       periodAmount.textContent = periodSelect.value;
     });
 
-    const appDataStart = this.start.bind(appData);
-
-    calculateBtn.addEventListener('click', function () {
+    calculateBtn.addEventListener('click', () => {
       if (salaryAmount.value !== '') {
-        appDataStart();
+        this.start();
       }
     });
 
-    const appDataReset = this.reset.bind(appData);
-
-    cancelBtn.addEventListener('click', function () {
-      appDataReset();
+    cancelBtn.addEventListener('click', () => {
+      this.reset();
     });
 
     incomeTitle.addEventListener('input', this.onlyRussianLetters);
