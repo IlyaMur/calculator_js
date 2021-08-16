@@ -111,8 +111,9 @@ class AppData {
     this.getExpInc();
     this.getExpensesMonth();
 
-    this.getAddExpenses();
-    this.getAddIncome();
+    // один метод вместо двух
+    this.getAddExpInc(additionalExpensesItem);
+    this.getAddExpInc(additionalIncomeItems, false);
 
     this.getBudget();
 
@@ -213,25 +214,23 @@ class AppData {
     for (const key in this.income) {
       this.incomeMonth += +this.income[key];
     }
-
-
   }
 
-  getAddExpenses() {
-    const addExpenses = additionalExpensesItem.value.split(', ');
-    addExpenses.forEach((item) => {
-      item = item.trim();
-      if (item !== '') {
-        this.addExpenses.push(item);
-      }
-    });
-  }
+  getAddExpInc(block, boolean = true) {
+    const isExpenses = boolean;
+    let items;
 
-  getAddIncome() {
-    additionalIncomeItems.forEach((item) => {
-      const itemValue = item.value.trim();
-      if (itemValue !== '') {
-        this.addIncome.push(itemValue);
+    if (typeof block.value === 'string') {
+      items = additionalExpensesItem.value.split(', ');
+    } else {
+      items = block;
+    }
+
+    items.forEach((item) => {
+      if (item !== '' && isExpenses) {
+        this.addExpenses.push(item.trim());
+      } else if (item !== '' && !isExpenses) {
+        this.addIncome.push(item.value.trim());
       }
     });
   }
@@ -309,10 +308,10 @@ class AppData {
   }
 
   eventListeners() {
+    // один метод вместо двух
     expensesAddButton.addEventListener('click', () => {
       this.addExpIncBlocks(expensesItems);
     });
-
     incomeAddButton.addEventListener('click', () => {
       this.addExpIncBlocks(incomeItems);
     });
