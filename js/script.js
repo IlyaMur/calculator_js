@@ -148,7 +148,7 @@ class AppData {
     budgetDay.value = Math.floor(this.budgetDay);
     expensesMonth.value = this.expensesMonth;
     additionalExpenses.value = this.addExpenses.join(', ');
-    additionalIncome.value = this.addIncome[0] === '' ? 'Наименования' : this.addIncome.join(', ');
+    additionalIncome.value = this.addIncome.join(', ');
 
     if (isNaN(this.getTargetMonth()) || !isFinite(this.getTargetMonth())) {
       targetMonth.value = 'Срок';
@@ -213,13 +213,13 @@ class AppData {
     } else if (block.length > 0) {
       items = block;
     } else {
-      return; additional_income - value
+      return;
     }
 
     items.forEach((item) => {
       if (item !== '' && isExpenses) {
         this.addExpenses.push(item.trim());
-      } else if (item !== '' && !isExpenses) {
+      } else if (item.value !== '' && !isExpenses) {
         this.addIncome.push(item.value.trim());
       }
     });
