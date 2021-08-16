@@ -111,7 +111,7 @@ AppData.prototype.reset = function () {
   incomeAddButton.disabled = false;
   expensesAddButton.disabled = false;
 
-  allInputsData.forEach(function (item) {
+  allInputsData.forEach((item) => {
     item.value = '';
   });
   periodSelect.value = 1;
@@ -128,20 +128,6 @@ AppData.prototype.reset = function () {
     this.cleanValues(expensesItems[i]);
     this.changeNodestate(expensesItems[i], false);
   }
-
-  // this.budget = 0;
-  // this.budgetDay = 0;
-  // this.budgetMonth = 0;
-  // this.expensesMonth = 0;
-  // this.income = {};
-  // this.incomeMonth = 0;
-  // this.addIncome = [];
-  // this.expenses = {};
-  // this.addExpenses = [];
-  // this.deposit = false;
-  // this.percentDeposit = 0;
-  // this.moneyDeposit = 0;
-
 
   this.showResult();
 };
@@ -203,46 +189,45 @@ AppData.prototype.addExpensesBlock = function () {
 };
 
 AppData.prototype.getIncome = function () {
-  incomeItems.forEach(function (item) {
+  incomeItems.forEach((item) => {
     let itemIncome = item.querySelector('.income-title').value;
     let cashIncome = item.querySelector('.income-amount').value;
 
     if (itemIncome !== '' && cashIncome !== '') {
       this.income[itemIncome] = cashIncome;
     }
-  }, this);
+  });
 
   for (let key in this.income) {
     this.incomeMonth += +this.income[key];
   }
 };
 AppData.prototype.getExpenses = function () {
-  expensesItems.forEach(function (item) {
+  expensesItems.forEach((item) => {
     let itemExpenses = item.querySelector('.expenses-title').value;
     let cashExpenses = item.querySelector('.expenses-amount').value;
 
     if (itemExpenses !== '' && cashExpenses !== '') {
       this.expenses[itemExpenses] = cashExpenses;
     }
-  }, this);
+  });
 };
 AppData.prototype.getAddExpenses = function () {
   let addExpenses = additionalExpensesItem.value.split(', ');
-  addExpenses.forEach(function (item) {
+  addExpenses.forEach((item) => {
     item = item.trim();
     if (item !== '') {
       this.addExpenses.push(item);
     }
-  }, this);
+  });
 };
 AppData.prototype.getAddIncome = function () {
-  additionalIncomeItems.forEach(function (item) {
+  additionalIncomeItems.forEach((item) => {
     let itemValue = item.value.trim();
     if (itemValue !== '') {
       this.addIncome.push(itemValue);
     }
-  }, this);
-
+  });
 };
 
 AppData.prototype.getExpensesMonth = function () {
@@ -301,7 +286,7 @@ AppData.prototype.calcPeriod = function () {
 };
 
 AppData.prototype.changeInputsState = function (boolean) {
-  allInputsData.forEach(function (item) {
+  allInputsData.forEach((item) => {
     if (!item.classList.contains('period-select')) {
       item.disabled = boolean;
     }
