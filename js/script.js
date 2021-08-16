@@ -47,8 +47,8 @@ const additionalExpensesItem = document.querySelector('.additional_expenses-item
 const targetAmount = document.querySelector('.target-amount');
 const periodSelect = document.querySelector('.period-select');
 
-let incomeItems = document.querySelectorAll('.income-items');
-let expensesItems = document.querySelectorAll('.expenses-items');
+const incomeItems = document.querySelectorAll('.income-items');
+const expensesItems = document.querySelectorAll('.expenses-items');
 
 const periodAmount = document.querySelector('.period-amount');
 
