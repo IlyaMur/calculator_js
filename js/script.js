@@ -56,6 +56,7 @@ const allInputsData = document.querySelectorAll('.data input');
 const depositBank = document.querySelector('.deposit-bank');
 const depositAmount = document.querySelector('.deposit-amount');
 const depositPercent = document.querySelectorAll('.deposit-percent');
+const percentForm = depositPercent[0];
 
 let formItems;
 let incomeInputs;
@@ -116,6 +117,12 @@ class AppData {
 
     this.resetInputs(incomeInputs);
     this.resetInputs(expensesInputs);
+    depositCheckbox.checked = false;
+
+    depositBank.style.display = 'none';
+    depositAmount.style.display = 'none';
+    depositPercent[0].style.display = 'none';
+    depositBank.value = '';
 
     calculateBtn.style.display = 'block';
     cancelBtn.style.display = 'none';
@@ -304,25 +311,13 @@ class AppData {
 
   changePercent() {
     const valueSelect = this.value;
-    const percentForm = depositPercent[0];
+
 
     if (valueSelect === 'other') {
       percentForm.style.display = 'inline-block';
-
-      percentForm.addEventListener('input', () => {
-        depositPercent.value = percentForm.value;
-      });
-
-      percentForm.addEventListener('change', (e) => {
-        if (!/^[1-9][0-9]?$|^100$/.test(e.target.value)) {
-          alert('Введите корректное значение в поле проценты');
-          e.target.value = '';
-        }
-      });
     } else {
       percentForm.style.display = 'none';
       depositPercent.value = valueSelect;
-
     }
   }
 
@@ -382,6 +377,21 @@ class AppData {
     targetAmount.addEventListener('input', this.onlyNumbers);
 
     depositCheckbox.addEventListener('change', this.depositHandler.bind(this));
+
+
+    percentForm.addEventListener('input', this.changePercentValue.bind(this));
+    percentForm.addEventListener('change', this.checkPercent.bind(this));
+  }
+
+  checkPercent(e) {
+    if (!/^[1-9][0-9]?$|^100$/.test(e.target.value)) {
+      alert('Введите корректное значение в поле проценты');
+      e.target.value = '';
+    }
+  }
+
+  changePercentValue() {
+    depositPercent.value = percentForm.value;
   }
 
   isNumber(n) {
