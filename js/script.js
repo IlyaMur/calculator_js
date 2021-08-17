@@ -244,6 +244,8 @@ class AppData {
 
   getBudget() {
     const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+    console.log('this.percentDeposit: ', this.percentDeposit);
+    console.log('this.moneyDeposit: ', this.moneyDeposit);
     this.budgetMonth = +this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
     this.budgetDay = this.budgetMonth / 30;
   }
@@ -276,16 +278,6 @@ class AppData {
     if (this.deposit) {
       this.percentDeposit = depositPercent.value;
       this.moneyDeposit = depositAmount.value;
-
-      // while (!this.isNumber(yearPercent)) {
-      //   yearPercent = prompt('Какой годовой процент?', 10);
-      // }
-      // while (!this.isNumber(sum)) {
-      //   sum = prompt('Какая сумма заложена?', 10000);
-      // }
-
-      // this.percentDeposit = yearPercent;
-      // this.moneyDeposit = sum;
     }
   }
 
@@ -379,14 +371,15 @@ class AppData {
     depositCheckbox.addEventListener('change', this.depositHandler.bind(this));
 
 
-    percentForm.addEventListener('input', this.changePercentValue.bind(this));
     percentForm.addEventListener('change', this.checkPercent.bind(this));
+    percentForm.addEventListener('input', this.changePercentValue.bind(this));
   }
 
   checkPercent(e) {
     if (!/^[1-9][0-9]?$|^100$/.test(e.target.value)) {
       alert('Введите корректное значение в поле проценты');
-      e.target.value = '';
+      e.target.value = 0;
+      depositPercent.value = 0;
     }
   }
 
