@@ -81,6 +81,10 @@ class AppData {
   start() {
     this.budget = +salaryAmount.value;
 
+    if (depositAmount.value === '') {
+      this.hideDepositBlock();
+    }
+
     this.blockForms();
 
     this.getExpInc();
@@ -142,18 +146,22 @@ class AppData {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
+  hideDepositBlock() {
+    this.deposit = false;
+    depositCheckbox.checked = false;
+    depositBank.style.display = 'none';
+    depositAmount.style.display = 'none';
+    depositPercent[0].style.display = 'none';
+    depositBank.value = '';
+  }
+
   reset() {
     this.clearStorages();
     this.changeInputsState(false);
 
     this.resetInputs(incomeInputs);
     this.resetInputs(expensesInputs);
-    depositCheckbox.checked = false;
-
-    depositBank.style.display = 'none';
-    depositAmount.style.display = 'none';
-    depositPercent[0].style.display = 'none';
-    depositBank.value = '';
+    this.hideDepositBlock();
 
     calculateBtn.style.display = 'block';
     cancelBtn.style.display = 'none';
@@ -161,6 +169,7 @@ class AppData {
     expensesAddButton.style.display = 'block';
     incomeAddButton.style.display = 'block';
 
+    depositBank.disabled = false;
     incomeAddButton.disabled = false;
     expensesAddButton.disabled = false;
 
@@ -195,6 +204,7 @@ class AppData {
 
     incomeAddButton.disabled = true;
     expensesAddButton.disabled = true;
+    depositBank.disabled = true;
 
     for (let i = 0; i < incomeInputs.length; i++) {
       this.changeNodestate(incomeInputs[i], true);
@@ -381,7 +391,6 @@ class AppData {
   changePercent() {
     const valueSelect = this.value;
 
-
     if (valueSelect === 'other') {
       percentForm.style.display = 'inline-block';
     } else {
@@ -393,7 +402,6 @@ class AppData {
   depositHandler() {
     if (depositCheckbox.checked) {
       depositBank.style.display = 'inline-block';
-      depositAmount.style.display = 'inline-block';
       this.deposit = true;
 
       depositBank.addEventListener('change', this.changePercent);
@@ -413,7 +421,6 @@ class AppData {
   }
 
   eventListeners() {
-    // один метод вместо двух
     expensesAddButton.addEventListener('click', () => {
       this.addExpIncBlocks(expensesItems);
     });
@@ -444,13 +451,20 @@ class AppData {
     incomeCash.addEventListener('input', this.onlyNumbers);
     expensesCash.addEventListener('input', this.onlyNumbers);
     targetAmount.addEventListener('input', this.onlyNumbers);
+    depositAmount.addEventListener('input', this.onlyNumbers);
 
     depositCheckbox.addEventListener('change', this.depositHandler.bind(this));
 
 
     percentForm.addEventListener('change', this.checkPercent.bind(this));
     percentForm.addEventListener('input', this.changePercentValue.bind(this));
-
+    depositBank.addEventListener('change', () => {
+      if (depositBank.value !== '') {
+        depositAmount.style.display = 'inline-block';
+      } else {
+        depositAmount.style.display = 'none';
+      }
+    });
   }
 
   checkPercent(e) {
