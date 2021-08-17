@@ -81,23 +81,18 @@ class AppData {
   start() {
     this.budget = +salaryAmount.value;
 
-    if (depositAmount.value === '') {
+    if (depositAmount.value === '' || !depositPercent.value) {
       this.hideDepositBlock();
     }
 
     this.blockForms();
-
     this.getExpInc();
     this.getExpensesMonth();
-
     this.getAddExpInc(additionalExpensesItem);
     this.getAddExpInc(additionalIncomeItems, false);
-
     this.getInfoDeposit();
     this.getBudget();
-
     this.showResult();
-
     this.saveToLocalStorage();
     this.saveToCookie();
   }
