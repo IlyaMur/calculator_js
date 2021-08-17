@@ -244,8 +244,6 @@ class AppData {
 
   getBudget() {
     const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
-    console.log('this.percentDeposit: ', this.percentDeposit);
-    console.log('this.moneyDeposit: ', this.moneyDeposit);
     this.budgetMonth = +this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
     this.budgetDay = this.budgetMonth / 30;
   }
